@@ -140,8 +140,6 @@ function App() {
     return (
       desc.trim().length >= 100 &&
       desc.trim().length <= 1000
-
-
     )
   }, [desc])
 
@@ -150,13 +148,12 @@ function App() {
   const handleSub = (e) => {
     e.preventDefault(); //evitiamo page refresh
 
-    //*gestione validazione? (IF)
-
     //task bisogna raccogliere i valori degli input NON controllati con valueRef.current.value!
     const fullName = fullNameRef.current.value
     const spec = specRef.current.value
     const exp = expRef.current.value
 
+    //*gestione validazione? (IF)
     if (
       !fullName.trim()
       || !userName.trim()
@@ -188,6 +185,7 @@ function App() {
 
   //task milestone 3 si trova in TUTTE le modifice contrassegnate come 
   //fixedRef
+  //task e nella rispettiva modifica apportata nell'handleSub
 
 
   return (
