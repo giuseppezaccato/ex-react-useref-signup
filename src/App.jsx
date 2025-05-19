@@ -64,7 +64,7 @@
 //     - Pulizia degli input non controllati usando refs
 //  3. Pulsante fisso in basso a destra per tornare all'inizio del form
 
-import { useState, useRef, useEffect, useMemo } from 'react'
+import { useState, useRef, useMemo } from 'react'
 
 //task costanti per la validazione
 const letters = "abcdefghijklmnopqrstuvwxyz"
@@ -74,12 +74,14 @@ const symbols = "!@#$%^&*()-_=+[]{}|;:'\\\",.<>?/`~"
 function App() {
 
   //task input controllati 
-  const [fullName, setFullName] = useState('');
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
-  const [spec, setSpec] = useState('')
-  const [exp, setExp] = useState('')
   const [desc, setDesc] = useState('')
+
+  //task input NON controllati
+  const fullNameRef = useRef() //fixedRef const [fullName, setFullName] = useState('')
+  const specRef = useRef()     //fixedRef const [spec, setSpec] = useState('')
+  const expRef = useRef()      //fixedRef const [exp, setExp] = useState('')
 
   //sarebbe scomodo fare una validazione con un nuovo state concatenato ad useEffect (PER OGNI CAMPO)
   //? const [isUserValid, setIsUserValid] = useState(null)
@@ -149,6 +151,12 @@ function App() {
     e.preventDefault(); //evitiamo page refresh
 
     //*gestione validazione? (IF)
+
+    //task bisogna raccogliere i valori degli input NON controllati con valueRef.current.value!
+    const fullName = fullNameRef.current.value
+    const spec = specRef.current.value
+    const exp = expRef.current.value
+
     if (
       !fullName.trim()
       || !userName.trim()
@@ -173,11 +181,14 @@ function App() {
       password,
       spec,
       exp,
-      desc,
+      desc
     })
 
-
   }
+
+  //task milestone 3 si trova in TUTTE le modifice contrassegnate come 
+  //fixedRef
+
 
   return (
     <div className="container">
@@ -193,8 +204,9 @@ function App() {
             id='nome'
             type="text"
             placeholder='Nome Completo'
-            value={fullName}
-            onChange={e => setFullName(e.target.value)}
+            //fixedRef value={fullName}
+            //fixedRef onChange={e => setFullName(e.target.value)}
+            ref={fullNameRef}
           />
         </label>
 
@@ -238,9 +250,11 @@ function App() {
           <select
             id='spec'
             name='specializzazioni'
-            value={spec}
-            onChange={e => setSpec(e.target.value)}
+            //fixedRef value={spec}
+            //fixedRef onChange={e => setSpec(e.target.value)}
+            ref={specRef}
           >
+            <option value="" disabled> Scegli la Specializzazione</option>
             <option value="Full Stack">Full Stack</option>
             <option value="Frontend">Frontend</option>
             <option value="Backend">Backend</option>
@@ -254,8 +268,9 @@ function App() {
             id='exp'
             type="number"
             placeholder='anni di exp'
-            value={exp}
-            onChange={e => setExp(e.target.value)}
+            //fixedRef value={exp}
+            //fixedRef onChange={e => setExp(e.target.value)}
+            ref={expRef}
           />
         </label>
 
